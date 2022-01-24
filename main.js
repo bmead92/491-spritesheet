@@ -1,13 +1,19 @@
-class Link {
-    constructor(game) {
-        this.game = game;
-        this.animator = new Animator(ASSET_MANAGER.getAsset("./linkspritesheet.png"), 0, 1, 24, 24, 5, 1, false, true);
-    };
+let gameEngine = new GameEngine();
 
-    update() {
+let ASSET_MANAGER = new AssetManager();
 
-    };
-        draw(ctx) {
-          this.animator.drawFrame(this.game.clockTick, ctx, 400, 350, 3);
-        }
-    };
+// sprites
+ASSET_MANAGER.queueDownload("./linkspritesheet.png");
+
+ASSET_MANAGER.downloadAll( function () {
+	var canvas = document.getElementById('gameWorld');
+	var ctx = canvas.getContext('2d');
+
+	ctx.imageSmoothingEnabled = false;
+
+	gameEngine.init(ctx);
+
+    gameEngine.addEntity(new Link(gameEngine));
+	
+	gameEngine.start();
+});
